@@ -17,11 +17,13 @@ package play.core.server.servlet
 
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
-import javax.servlet.ServletContext
 
+import akka.stream.Materializer
+import javax.servlet.ServletContext
 import play.api._
+import play.api.mvc.{CookieHeaderEncoding, FlashCookieBaker, SessionCookieBaker}
 import play.core.ApplicationProvider
-import play.core.server.{Server, ServerWithStop}
+import play.core.server.Server
 
 import scala.util.control.NonFatal
 import scala.util.{Success, Try}
@@ -38,9 +40,8 @@ object Play2WarServer {
 
   val context = ApplicationLoader.createContext(
     new Environment(new File("."), ApplicationLoader.getClass.getClassLoader, Mode.Prod))
-  Logger.configure(context.environment)
 
-  lazy val configuration = Play.current.configuration
+  lazy val configuration = playServer.get.applicationProvider.application.configuration
 
   private val started = new AtomicBoolean(true)
 
@@ -62,11 +63,12 @@ object Play2WarServer {
   }
 }
 
-private[servlet] class Play2WarServer(appProvider: WarApplication) extends Server with ServerWithStop {
+private[servlet] class Play2WarServer(appProvider: WarApplication) extends Server {
 
   private val requestIDs = new java.util.concurrent.atomic.AtomicLong(0)
 
   def mode = appProvider.mode
+  def materializer: Materializer = appProvider.application.materializer
 
   def applicationProvider = appProvider
 
@@ -94,7 +96,7 @@ private[servlet] class Play2WarServer(appProvider: WarApplication) extends Serve
   }
 }
 
-private[servlet] class WarApplication(val mode: Mode.Mode, contextPath: Option[String]) extends ApplicationProvider {
+private[servlet] class WarApplication(val mode: Mode, contextPath: Option[String]) extends ApplicationProvider {
 
   val applicationPath = Option(System.getProperty("user.home")).fold(new File("")){ new File(_) }
 
@@ -104,16 +106,18 @@ private[servlet] class WarApplication(val mode: Mode.Mode, contextPath: Option[S
       .filterNot(_.isEmpty)
       .map(cp => cp + (if (cp.endsWith("/")) "" else "/"))
       .fold(Map.empty[String, AnyRef]) { cp ⇒
-        Logger("play").info(s"Force Play 'application.context' to '$cp'")
-        Map("application.context" -> cp)
+        Logger("play").info(s"Force Play 'play.http.context' to '$cp'")
+        Map("play.http.context" -> cp)
       }
     val context = ApplicationLoader.createContext(environment, initialSettings = initialSettings)
-    // Because of https://play.lighthouseapp.com/projects/82401-play-20/tickets/275, reconfigure Logger
-    // without substitutions
-    Logger.configure(context.environment)
+
     val loader = ApplicationLoader(context)
     loader.load(context)
   }
+
+  val cookieHeaderEncoding = application.injector.instanceOf(classOf[CookieHeaderEncoding])
+  val sessionBaker = application.injector.instanceOf(classOf[SessionCookieBaker])
+  val flashBaker = application.injector.instanceOf(classOf[FlashCookieBaker])
 
   Play.start(application)
 

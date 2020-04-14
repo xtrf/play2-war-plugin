@@ -7,7 +7,7 @@ import com.github.play2war.plugin.it.{Java8, CargoContainerManager, Servlet30Con
 object Jetty91xRunner extends App {
 
   val cargoContainer = new CargoContainerManager with Servlet30Container with Java8 {
-    override def containerUrl = "http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz"
+    override def containerUrl = "https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz"
     override def containerName = "jetty9x"
   }
 

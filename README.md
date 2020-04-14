@@ -6,6 +6,7 @@
         Play 2.3.2+         : 1.3-beta3 (Scala 2.10 & 2.11)
         Play 2.4.x          : 1.4.0 (Scala 2.10 & 2.11)
         Play 2.5.x          : Not supported yet
+		Play 2.6.x          : 1.6.0 (Scala 2.12)
 
     Project-status: STABLE
 
