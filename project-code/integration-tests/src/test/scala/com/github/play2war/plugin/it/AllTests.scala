@@ -574,7 +574,7 @@ class Tomcat6xTests extends AbstractPlay2WarTests with Servlet25Container with J
 
 @RunWith(classOf[JUnitRunner])
 class Jetty7xTests extends AbstractPlay2WarTests with Servlet25Container with Java8 {
-  override def containerUrl = "http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.5.v20120716/jetty-distribution-7.6.5.v20120716.tar.gz"
+  override def containerUrl = "https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.5.v20120716/jetty-distribution-7.6.5.v20120716.tar.gz"
   override def containerFileNameInCloudbeesCache = Option("jetty-distribution-7.6.5.v20120716.tar.gz")
   override def containerName = "jetty7x"
 }
@@ -625,7 +625,7 @@ class Tomcat8xTests extends AbstractPlay2WarTests with Servlet31Container with J
 
 @RunWith(classOf[JUnitRunner])
 class Jetty8xTests extends AbstractPlay2WarTests with Servlet30Container with Java8 {
-  override def containerUrl = "http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.3.v20120416/jetty-distribution-8.1.3.v20120416.tar.gz"
+  override def containerUrl = "https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.3.v20120416/jetty-distribution-8.1.3.v20120416.tar.gz"
   override def containerFileNameInCloudbeesCache = Option("jetty-distribution-8.1.3.v20120416.tar.gz")
   override def containerName = "jetty8x"
 }
