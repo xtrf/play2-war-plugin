@@ -79,7 +79,7 @@ lazy val play2WarCoreservlet25 = project(id = "play2-war-core-servlet25",
 // Plugin
 //
 lazy val play2WarPlugin = Project(id = "play2-war-plugin", base = file("plugin"))
-  .settings(commonSettings ++ ivySettings ++ Seq(
+  .settings(commonSettings ++ Seq(
     publishArtifact := true,
     scalaVersion := buildScalaVersionForSbt,
     scalaBinaryVersion := buildScalaVersionForSbtBinaryCompatible,
@@ -129,18 +129,19 @@ def commonIvyMavenSettings: Seq[Setting[_]] = Seq(
   homepage := Some(url("https://github.com/play2war/play2-war-plugin"))
 )
 
-def ivySettings: Seq[sbt.Setting[_]] = commonIvyMavenSettings ++ Seq(
-  publishMavenStyle := false,
-  bintrayReleaseOnPublish := false,
-  bintrayRepository := "sbt-plugins",
-  bintrayOrganization := Some("play2war")
-)
+//def ivySettings: Seq[sbt.Setting[_]] = commonIvyMavenSettings ++ Seq(
+//  publishMavenStyle := false,
+//  bintrayReleaseOnPublish := false,
+//  bintrayRepository := "sbt-plugins",
+//  bintrayOrganization := Some("play2war")
+//)
 
 def mavenSettings: Seq[sbt.Setting[_]] = commonIvyMavenSettings ++ Seq(
   publishMavenStyle := true,
   pomIncludeRepository := { _ => false },
   publishTo := {
-    val nexus = "https://oss.sonatype.org/"
+//    val nexus = "https://oss.sonatype.org/"
+    val nexus = "https://repo.dev.xtrf.eu/nexus/"
     if (isSnapshot.value) {
       Some("snapshots" at nexus + "content/repositories/snapshots")
     } else {
