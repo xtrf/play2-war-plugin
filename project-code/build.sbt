@@ -6,7 +6,7 @@ import sbt.Def
 val buildOrganization = "com.github.play2war"
 val defaultPlay2Version = "2.6.15"
 val play2Version = sys.props.get("play2.version").filterNot(_.isEmpty).getOrElse(defaultPlay2Version)
-val defaultBuildVersion = "1.6.0-SNAPSHOT"
+val defaultBuildVersion = "1.6.0.xtrf"
 val buildVersion = sys.props.get("play2war.version").filterNot(_.isEmpty).getOrElse(defaultBuildVersion)
 val buildScalaVersion211 = "2.11.12"
 val buildScalaVersion212 = "2.12.6"
